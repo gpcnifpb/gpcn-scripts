@@ -21,7 +21,6 @@
 
 for i in `seq 1 30`
 do
-
 # Pega a primeira linha do arquivo, tempo total de execução
 # dela extrai a string do 1º ao 8º caractere.
 head -n 1 cpu_"$i"_AT.log | awk '{print substr($1,1,8)}' >> total_time.log
