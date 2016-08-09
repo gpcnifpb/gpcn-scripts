@@ -18,7 +18,7 @@
 # TODO 2 - O head -n 1 não vai pegar a informação correta, existem outras coisas
 # na primeira linha o tempo total tem aparecido na 17º linha. Assim como todos
 # os outros comandos vão estar incorretos.
-
+#
 for i in `seq 1 30`
 do
 # Pega a primeira linha do arquivo, tempo total de execução
