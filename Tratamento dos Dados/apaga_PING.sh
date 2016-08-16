@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Descrição: Não consegui identificar
+# Descrição: Nada
 ## Como usar:
 ## Resultado:
 

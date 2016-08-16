@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# Descrição:
+#   Extrai dados dos logs do sysbench do servidor monitorado (ou seja,
+#   vizinho do atacado)
+# Como usar:
+#    Atualmente utilizado dentro de monitorado/sysbench
+#
+# Resultado:
+#   ...
+#
+
 for i in `seq 1 30`
 do
 #Linha para CPU sysbench
