@@ -1,24 +1,8 @@
 #!/bin/sh
 
-# Descrição:
-#   Extrai dados dos logs do sysbench do servidor monitorado (ou seja,
-#   vizinho do atacado)
-# Como usar:
-#    Atualmente utilizado dentro de monitorado/sysbench
-#
-# Resultado:
-#   17 arquivos
-#
-
-# TODO 1 - Fazer do 0
-
 for i in `seq 1 30`
 do
-# sed -n 'Np' origem >> destiono
-# -n -> Ignora todas as outras linhas
-# Np -> Onde N é um número inteiro que indica a linha que o sed deve exibir na tela
-# Ou seja o sed imprime apenas a linha indicada por N e salva no final do arquivo
-# de destino.
+
 sed -n '1p' disk_"$i"_AT.log >> Op_perform_Read.log
 sed -n '2p' disk_"$i"_AT.log >> Op_perform_Write.log
 sed -n '3p' disk_"$i"_AT.log >> Op_perform_Other.log
