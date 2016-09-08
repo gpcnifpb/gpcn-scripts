@@ -1,0 +1,103 @@
+T50 - Experimental Mixed Packet Injector
+
+Legend:
++ Added feature
+* Improved/changed feature
+- Bug fixed
+! Known issue / missing feature
+
+T50 5.6.3 - May 30th, 2016
+ * Project now compiles and installs with GNU Build System help.
+ * Compiler option -mtune=native changed to -march=native. SSE options for i386 not necessary anymore.
+
+T50 5.5 - March 19th, 2016
+ * Minor fixes
+ * Added comments to the code (for developers)
+
+T50 5.5 - March 16th, 2016
+ * SIGTSTP and SIGTRAP are now blocked.
+ - Some nasty bugs based on kl0nEz discovery fixed.
+ - A nasty bug detected by kl0nEz (shell crash!) was corrected.
+
+T50 5.5 - December 18th, 2015
+ + Added experimental xorshift128+ pseudo random number generator routine.
+
+T50 5.5 - December 1st, 2015
+ - The PRNG now generates 32 bit unsigned numbers.
+ * t50.c changed to main.c
+
+T50 5.5 - February 3rd, 2015
+ ! Changed the behavior of signals from RESTART to INTERRUPT.
+ * The raw socket is NON BLOCKING now.
+ ! Improved command line parser: No more duplicated options accepted!
+     --protocol is case insensitive now.
+ - Add call to tcp_help() to usage().
+ * Support for RDRAND and BMI2 instruction set added.
+ - Small bug when calculating IP address on t50.c fixed
+ + Added some "post-mortem" debug routines
+ * If sendto's errno is EPERM, show permission error message asking to check firewall settings.
+ - Fixed bugs of modules memory allocations.
+ * Code compiles fine with LLVM clang 3.x;
+ * SSE is enabled by default in x86-64 architecture (commented on Makefile);
+ * Changed return type of module funcions;
+ * Small corrections on modules functions;
+ * All files were converted to UNIX text format;
+ * gre_encapsulation() was still not used on ospf.c;
+ - Calls to sendto with second parameter were wrong;
+ * Function ip_header() added to modules/ip.c.
+ - On embeded systems the use of VLAs (Variable Length Arrays) in modules functions can be hazardous
+    due to restricted stack space. "Differential" buffer reallocation on heap fix this problem;
+ * cksum() 5 times faster now (summing QWORDs, DWORDs WORDs and BYTES, in that order);
+ * Using a trick to deal with pointers of multiple types on modules functions;
+ * New Makefile (still needs some tweaks) for better incremental compiling;
+ * Minor fix on getOrdinalSuffix() function, no t50.c (11, 12 & 13 have a "th" suffix!).
+ + Added comments with FIX, FIXME, NOTE prefix for better code reading.
+ * Changed the way modules table are declared. See modules.c for advice.
+ * Module table are not order dependant anymore!
+ * Created src/help directory and src/include/help.h header to improve module "modularity".
+ * Host name now can be a partial IP or name, optionally followed by "/cidr".
+   Partial IP have the format 'a(.b(.c(.d)))'. Formats as 'a.b./cidr' are invalid.
+ ! if a name or a full IP is given, the default cidr is 32. T50 will fail showing the message:
+   "CIDR must be between 8 and 30.".
+ - CIDR bug above fixed by Fernando Mercês.
+ * socket descriptor isolated from anyone except sock.c.
+ * "modules" just manipulates the packet buffer. main() actually sends the packet.
+ * 'stdout' is now unbuffered on initialization. To avoid line buffer behavior oddities (if any).
+ * Added -std=gnu99 to CFLAGS, on Makefile.
+ ! Possible wrong way to calculate threshold for turbo mode.
+ - Threshold bugs fixed. 
+ ! Possible wrong way to threat SIGCHLD signal.
+ - Added a SIGALRM handler and a timeout of 5 seconds when main process waits for child.
+
+T50 5.4.1 - August 11th, 2013
+ - Fixed bug in option parsing.
+ - Fixed license missing in some files.
+ * Depecrecation of gethostbyname() - thanks to Cooler
+ * Improved code, reduced memory consumption - thanks to Frederico Pissara
+ * Improved Makefile, reduced compilation time, use of SS3 instructions.
+ * Removed private IP address restriction.
+ - Manpage moved to section 8.
+ + Strip set by default.
+
+T50 5.4.0 - September 4th, 2011
+ + New version scheme <MajorVersion.MinorVersion.RevisionNumber>.
+ + Added manpage.
+ * UPX and strip removed.
+ * License limitations removed.
+ * Removed libmath dependency.
+ * New smaller Makefile reducing compile time. Many flags removed.
+ ! We don't have support for IPv6 yet.
+ ! T50 may not compile in other systems nor GNU/Linux distros.
+
+T50 5.3 - April 9th, 2011
+ + New License: it is, finally, licensed under GPL v2.0. Please, refer
+ to LICENSE document for further information.
+ + CIDR Support: Classless Inter-Domain Routing  support  for destination
+   IP address,  using  a  really  tiny  C  algorithm.  This would allow
+   the new version to simulate DDoS in a laboratory environment.
+ + New protocols support: IGMP, EGP, RIP, DCCP, RSVP, IPSec, GRE, EIGRP
+ and OSPF.
+ + TCP Options support.
+
+ T50 2.45 - November 10th, 2010
+  First public release.
