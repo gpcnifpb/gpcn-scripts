@@ -62,6 +62,8 @@ collectl -v > /dev/null 2> /dev/null
         echo "Collectl não instalado no Monitorado"
  fi
 
+cp ./checklist-monitorado.sh /gpcn/monitorado/scripts
+
 # Testa se o Sysbench está instalado no Monitorado
 sysbench -v > /dev/null 2> /dev/null
 

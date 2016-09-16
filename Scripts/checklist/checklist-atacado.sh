@@ -52,6 +52,8 @@ if [ ! -d '/gpcn/atacado/logs/netstat' ]
  		echo "Diretório /gpcn/atacado/logs/netstat já existe!"
  fi
 
+ cp ./checklist-atacado.sh /gpcn/atacado/scripts
+
 # Testa se o Collectl está instalado no Atacado
 collectl -v > /dev/null 2> /dev/null 
 

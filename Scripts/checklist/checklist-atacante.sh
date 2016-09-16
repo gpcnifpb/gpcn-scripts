@@ -24,6 +24,7 @@ if [ ! -d '/gpcn/atacante/scripts' ]
  fi
 
 
+cp ./checklist-atacante.sh /gpcn/atacante/scripts
 
 # Testa se o t50 está instalado no Atacante
 t50 --version > /dev/null

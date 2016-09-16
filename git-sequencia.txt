@@ -1,0 +1,5 @@
+git add --all
+git commit -m "fix #5"
+git checkout Dev
+git merge issue5
+git push

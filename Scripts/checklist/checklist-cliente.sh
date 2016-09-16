@@ -53,6 +53,8 @@ if [ ! -d '/gpcn/clientes/scripts' ]
  fi
 
 
+cp ./checklist-clientes.sh /gpcn/clientes/scripts
+
  # Testa se o Siege está instalado no Cliente
 siege --version > /dev/null 2> /dev/null
 
