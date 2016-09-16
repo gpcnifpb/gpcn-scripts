@@ -5,19 +5,23 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "gpcnmaster" do |gpcnmaster|
   	gpcnmaster.vm.box = "ubuntu/trusty64"
-    	gpcnmaster.vm.hostname = "gpcnmaster"
-   	
-	# Adaptador em modo bridge
-    	config.vm.network "public_network", auto_config: false
-    	config.vm.provision "shell", run: "always", inline: "ifconfig eth1 192.168.0.254 netmask 255.255.255.0 up"
-    	config.vm.network "public_network", auto_config: false
-    	config.vm.provision "shell", run: "always", inline: "ifconfig eth2 192.168.10.254 netmask 255.255.255.0 up"
+    gpcnmaster.vm.hostname = "gpcnmaster"
+    #Adaptador em modo bridge
+    config.vm.network "public_network", auto_config: false
+    config.vm.provision "shell",
+    run: "always",
+    inline: "ifconfig eth1 192.168.0.254 netmask 255.255.255.0 up"
+    config.vm.network "public_network", auto_config: false
+    config.vm.provision "shell",
+    run: "always",
+    inline: "ifconfig eth2 192.168.10.254 netmask 255.255.255.0 up"
+
   	gpcnmaster.vm.synced_folder "./master/", "/gpcn/master/", create: true
 
   	gpcnmaster.vm.provider "virtualbox" do |vb|
   		vb.name = "gpcnmaster"
-      		vb.memory = 256
-   end
+      vb.memory = 256
+    end
 
     gpcnmaster.vm.provision "shell", inline: <<-SHELL
 
@@ -45,13 +49,13 @@ Vagrant.configure("2") do |config|
       sudo apt-get -y upgrade > /dev/null
       sudo apt-get install -y build-essential > /dev/null
 
-      echo "Installing SSHPASS"
-      sudo apt-get -y install sshpass > /dev/null::q
+    	echo "Installing SSHPASS"
+    	sudo apt-get -y install sshpass > /dev/null
       sudo sed -i 's,PermitRootLogin without-password,PermitRootLogin yes,g' /etc/ssh/sshd_config
       sudo echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
       sudo service ssh restart
       sudo rm /home/vagrant/.ssh/known_hosts
-      echo "Status SSHPASS:”:
+      echo "Status SSHPASS:"
       sshpass -V
 
     SHELL
@@ -60,16 +64,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "gpcnclient" do |gpcnclient|
     gpcnclient.vm.box = "ubuntu/trusty64"
     gpcnclient.vm.hostname = "gpcnclient"
-<<<<<<< HEAD:Ambiente/Vagrantfile
-    gpcnclient.vm.network "private_network", 
-      ip: "192.168.0.1", 
-      virtualbox__intnet: "gpcn"
-    gpcnclient.vm.network "private_network", 
-      ip: "192.168.10.1",
-      virtualbox__intnet: "gpcn"
-    gpcnclient.vm.synced_folder "./client/", "/home/vagrant/", create: true
-      
-=======
     #Adaptador em modo
     config.vm.network "public_network", auto_config: false
     config.vm.provision "shell",
@@ -81,7 +75,6 @@ Vagrant.configure("2") do |config|
     inline: "ifconfig eth2 192.168.10.1 netmask 255.255.255.0 up"
     gpcnclient.vm.synced_folder "./client/", "/gpcn/clientes/", create: true
 
->>>>>>> DevJP:Vagrant/Vagrantfile
     gpcnclient.vm.provider "virtualbox" do |vb|
       vb.name = "gpcnclient"
       vb.memory = 256
@@ -123,11 +116,7 @@ Vagrant.configure("2") do |config|
       echo "Installing Siege"
       sudo apt-get -y install siege > /dev/null
       echo "Status Siege: "
-<<<<<<< HEAD:Ambiente/Vagrantfile
-      siege --version 
-=======
       siege --version
->>>>>>> DevJP:Vagrant/Vagrantfile
 
     SHELL
   end
@@ -135,13 +124,6 @@ Vagrant.configure("2") do |config|
     config.vm.define "gpcnmonitorado" do |gpcnmonitorado|
     gpcnmonitorado.vm.box = "ubuntu/trusty64"
     gpcnmonitorado.vm.hostname = "gpcnmonitorado"
-<<<<<<< HEAD:Ambiente/Vagrantfile
-    gpcnmonitorado.vm.network "private_network", 
-      ip: "192.168.10.201", 
-      virtualbox__intnet: "gpcn"
-    gpcnmonitorado.vm.synced_folder "./monitorado/", "/home/vagrant/", create: true
-      
-=======
     #Adaptador em modo
     config.vm.network "public_network", auto_config: false
     config.vm.provision "shell",
@@ -151,7 +133,6 @@ Vagrant.configure("2") do |config|
     
     gpcnmonitorado.vm.synced_folder "./monitorado/", "/gpcn/monitorado/", create: true
 
->>>>>>> DevJP:Vagrant/Vagrantfile
     gpcnmonitorado.vm.provider "virtualbox" do |vb|
       vb.name = "gpcnmonitorado"
       vb.memory = 256
@@ -208,13 +189,6 @@ Vagrant.configure("2") do |config|
     config.vm.define "gpcnatacado" do |gpcnatacado|
     gpcnatacado.vm.box = "ubuntu/trusty64"
     gpcnatacado.vm.hostname = "gpcnatacado"
-<<<<<<< HEAD:Ambiente/Vagrantfile
-    gpcnatacado.vm.network "private_network", 
-      ip: "192.168.0.200", 
-      virtualbox__intnet: "gpcn"
-    gpcnatacado.vm.synced_folder "./atacado/", "/home/vagrant/", create: true
-      
-=======
     #Adaptador em modo
     config.vm.network "public_network", auto_config: false
     config.vm.provision "shell",
@@ -223,7 +197,6 @@ Vagrant.configure("2") do |config|
     config.vm.network "public_network", auto_config: false
     gpcnatacado.vm.synced_folder "./atacado/", "/gpcn/atacado/", create: true
 
->>>>>>> DevJP:Vagrant/Vagrantfile
     gpcnatacado.vm.provider "virtualbox" do |vb|
       vb.name = "gpcnatacado"
       vb.memory = 256
@@ -279,16 +252,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "gpcnslave" do |gpcnslave|
     gpcnslave.vm.box = "ubuntu/trusty64"
     gpcnslave.vm.hostname = "gpcnslave"
-<<<<<<< HEAD:Ambiente/Vagrantfile
-    gpcnslave.vm.network "private_network", 
-      ip: "192.168.0.7", 
-      virtualbox__intnet: "gpcn"
-    gpcnslave.vm.network "private_network", 
-      ip: "192.168.10.7",
-      virtualbox__intnet: "gpcn"
-    gpcnslave.vm.synced_folder "./slave/", "/home/vagrant/", create: true
-      
-=======
     #Adaptador em modo
     config.vm.network "public_network", auto_config: false
     config.vm.provision "shell",
@@ -300,7 +263,6 @@ Vagrant.configure("2") do |config|
     inline: "ifconfig eth2 192.168.10.7 netmask 255.255.255.0 up"
     gpcnslave.vm.synced_folder "./slave/", "/gpcn/atacante/", create: true
 
->>>>>>> DevJP:Vagrant/Vagrantfile
     gpcnslave.vm.provider "virtualbox" do |vb|
       vb.name = "gpcnslave"
       vb.memory = 256
@@ -309,9 +271,6 @@ Vagrant.configure("2") do |config|
     gpcnslave.vm.provision "shell", inline: <<-SHELL
 
       echo "-------------------------------- CONFIGURACAO DO SLAVE --------------------------------"
-<<<<<<< HEAD:Ambiente/Vagrantfile
-      
-=======
 
       echo "Criando diretórios"
       sudo mkdir -p /gpcn/atacante/logs/
@@ -327,7 +286,6 @@ Vagrant.configure("2") do |config|
       echo "Status SSHPASS:"
       sshpass -V
 
->>>>>>> DevJP:Vagrant/Vagrantfile
       echo "Installing build essentials"
       sudo apt-get -y update > /dev/null
       sudo apt-get -y upgrade > /dev/null
@@ -345,18 +303,10 @@ Vagrant.configure("2") do |config|
       sudo ./configure > /dev/null
       sudo make > /dev/null
       sudo make install > /dev/null
-<<<<<<< HEAD:Ambiente/Vagrantfile
-      echo "Status T50: " 
-=======
       echo "Status T50: "
->>>>>>> DevJP:Vagrant/Vagrantfile
       t50 --version
 
     SHELL
   end
 
-<<<<<<< HEAD:Ambiente/Vagrantfile
 end
-=======
-end
->>>>>>> DevJP:Vagrant/Vagrantfile
