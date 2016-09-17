@@ -29,7 +29,7 @@ ping -c1 192.168.10.201 > /dev/null
 		exit
 	fi
 
-for i in `seq 1 6`
+for i in `seq 1 $NUMCLIENTS`
 do
 	ping -c1 192.168.0.$i > /dev/null
 
@@ -42,7 +42,7 @@ do
 		fi
 done
 
-for i in `seq 7 16`
+for i in `seq $[NUMCLIENTS+1] $[NUMCLIENTS+NUMSLAVES]`
 do
 	ping -c1 192.168.0.$i > /dev/null
 
@@ -128,7 +128,7 @@ if [ ! -d '/gpcn/master/logs/atacado/sysbench' ]
  fi
 
 
-for i in `seq 1 6`
+for i in `seq 1 $NUMCLIENTS`
 do
 if [ ! -d "/gpcn/master/logs/clientes/0$i/ping" ]
  then
@@ -145,7 +145,7 @@ if [ ! -d "/gpcn/master/logs/clientes/0$i/ping" ]
  fi
 done
 
-for i in `seq 1 6`
+for i in `seq 1 $NUMCLIENTS`
 do
 if [ ! -d "/gpcn/master/logs/clientes/0$i/siege" ]
  then
@@ -192,7 +192,7 @@ fi
 
 
 ################# Testar se os diretórios existem no Monitorado #################
-sshpass -p 'vagrant' scp /gpcn/git/gpcn-scripts/Scripts/checklist/checklist-monitorado.sh root@192.168.0.200:/root
+sshpass -p 'vagrant' scp /gpcn/git/gpcn-scripts/Scripts/checklist/checklist-monitorado.sh root@192.168.10.201:/root
 sshpass -p 'vagrant' ssh root@192.168.10.201 'bash /root/checklist-monitorado.sh' > /dev/null
 
 if [ $? -eq 0 ]
@@ -208,7 +208,7 @@ fi
 for i in `seq 1 $NUMCLIENTS`
 do
 	sshpass -p 'vagrant' scp /gpcn/git/gpcn-scripts/Scripts/checklist/checklist-cliente.sh root@192.168.0.$i:/root
-	sshpass -p 'vagrant' ssh root@192.168.0.$i '/gpcn/clientes/scripts/checklist-cliente.sh' > /dev/null
+	sshpass -p 'vagrant' ssh root@192.168.0.$i 'bash /root/checklist-cliente.sh' > /dev/null
 
 if [ $? -eq 0 ]
     then
@@ -252,9 +252,9 @@ EXP='_SA'
 
 for j in `seq 1 $ROUNDS`
 do
-sshpass -p 'vagrant' ssh root@192.168.0.200 '/gpcn/atacado/scripts/atacado.sh '$j$EXP &
+sshpass -p 'vagrant' ssh root@192.168.0.200 'bash /gpcn/atacado/scripts/atacado.sh '$j$EXP &
 sshpass -p 'vagrant' ssh root@192.168.0.200 'stress-ng --cpu 2 --io 2 --vm 4 --vm-bytes 1G --timeout 840s' &
-sshpass -p 'vagrant' ssh root@192.168.10.201 '/gpcn/monitorado/scripts/monitorado.sh '$j$EXP &
+sshpass -p 'vagrant' ssh root@192.168.10.201 'bash /gpcn/monitorado/scripts/monitorado.sh '$j$EXP &
 sshpass -p 'vagrant' ssh root@10.0.4.186 'bash /root/xenserver.sh '$j$EXP &
 #echo "OUCH NA SERVER SSHPASS ESPERANDO 35 Segundos"
 #Ja tem Sleep nos clientes
@@ -263,7 +263,7 @@ sshpass -p 'vagrant' ssh root@10.0.4.186 'bash /root/xenserver.sh '$j$EXP &
 for i in `seq 1 $NUMCLIENTS`
 do
 sshpass -p 'vagrant' scp /gpcn/git/gpcn-scripts/Scripts/execucao/client.sh root@192.168.0.$i:/gpcn/clientes/scripts
-sshpass -p 'vagrant' ssh root@192.168.0.$i '/gpcn/clientes/scripts/client.sh '$j$EXP &
+sshpass -p 'vagrant' ssh root@192.168.0.$i 'bash /gpcn/clientes/scripts/client.sh '$j$EXP &
 echo "OUCH $i clients"
 done
 echo 'OUCH Esperando 1080 segundos'
@@ -275,23 +275,23 @@ EXP2='_CA'
 
 for j in `seq 1 $ROUNDS`
 do
-sshpass -p 'vagrant' ssh root@192.168.0.200 '/gpcn/atacado/scripts/atacado.sh '$j$EXP2 &
+sshpass -p 'vagrant' ssh root@192.168.0.200 'bash /gpcn/atacado/scripts/atacado.sh '$j$EXP2 &
 sshpass -p 'vagrant' ssh root@192.168.0.200 'stress-ng --cpu 2 --io 2 --vm 4 --vm-bytes 1G --timeout 840s' &
-sshpass -p 'vagrant' ssh root@192.168.10.201 '/gpcn/monitorado/scripts/monitorado.sh '$j$EXP2 &
+sshpass -p 'vagrant' ssh root@192.168.10.201 'bash /gpcn/monitorado/scripts/monitorado.sh '$j$EXP2 &
 sshpass -p 'vagrant' ssh root@10.0.4.186 'bash /root/xenserver.sh '$j$EXP2 &
 #echo "OUCH NA SERVER SSHPASS ESPERANDO 35 Segundos"
 #sleep 35
 
 for i in `seq 1 $NUMCLIENTS`
 do
-sshpass -p 'vagrant' ssh root@192.168.0.$i '/gpcn/clientes/scripts/client.sh '$j$EXP2 &
+sshpass -p 'vagrant' ssh root@192.168.0.$i 'bash /gpcn/clientes/scripts/client.sh '$j$EXP2 &
 echo "OUCH $i clients"
 done
 
 for i in `seq $[NUMCLIENTS+1] $[NUMCLIENTS+NUMSLAVES]`
 do
 sshpass -p 'vagrant' scp /gpcn/git/gpcn-scripts/Scripts/execucao/slave.sh root@192.168.0.$i:/gpcn/atacante/scripts
-sshpass -p 'vagrant' ssh root@192.168.0.$i '/gpcn/atacante/scripts/slave.sh' &
+sshpass -p 'vagrant' ssh root@192.168.0.$i 'bash /gpcn/atacante/scripts/slave.sh' &
 echo 'OUCH Esperando 1080 segundos'
 done
 
