@@ -43,6 +43,12 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p /gpcn/master/logs/clientes/0$i/siege/
 
       done
+      echo "Instalando J.A.R.B.A.S"
+      sudo apt-get install -y git > /dev/null
+      git clone https://github.com/gpcnifpb/jarbas.git
+      sudo chmod +x jarbas/project/jarbas
+      sudo chmod +x jarbas/project/functions.sh
+      sudo ln -s /home/vagrant/jarbas/Project/jarbas /usr/bin/jarbas
 
       echo "Installing build essentials"
       sudo apt-get -y update > /dev/null
@@ -89,6 +95,13 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p /gpcn/clientes/logs/siege/
       sudo mkdir -p /gpcn/clientes/scripts
 
+      echo "Instalando J.A.R.B.A.S"
+      sudo apt-get install -y git > /dev/null
+      git clone https://github.com/gpcnifpb/jarbas.git
+      sudo chmod +x jarbas/project/jarbas
+      sudo chmod +x jarbas/project/functions.sh
+      sudo ln -s /home/vagrant/jarbas/Project/jarbas /usr/bin/jarbas
+
       echo "Installing SSHPASS"
     	sudo apt-get -y install sshpass > /dev/null
       sudo sed -i 's,PermitRootLogin without-password,PermitRootLogin yes,g' /etc/ssh/sshd_config
@@ -130,7 +143,7 @@ Vagrant.configure("2") do |config|
     run: "always",
     inline: "ifconfig eth1 192.168.10.201 netmask 255.255.255.0 up"
     config.vm.network "public_network", auto_config: false
-    
+
     gpcnmonitorado.vm.synced_folder "./monitorado/", "/gpcn/monitorado/", create: true
 
     gpcnmonitorado.vm.provider "virtualbox" do |vb|
@@ -148,6 +161,12 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p /gpcn/monitorado/logs/sysbench/
       sudo mkdir -p /gpcn/monitorado/scripts/
 
+      echo "Instalando J.A.R.B.A.S"
+      sudo apt-get install -y git > /dev/null
+      git clone https://github.com/gpcnifpb/jarbas.git
+      sudo chmod +x jarbas/project/jarbas
+      sudo chmod +x jarbas/project/functions.sh
+      sudo ln -s /home/vagrant/jarbas/Project/jarbas /usr/bin/jarbas
 
       echo "Installing SSHPASS"
       sudo apt-get -y install sshpass > /dev/null
@@ -220,6 +239,13 @@ Vagrant.configure("2") do |config|
       echo "Status SSHPASS:"
       sshpass -V
 
+      echo "Instalando J.A.R.B.A.S"
+      sudo apt-get install -y git > /dev/null
+      git clone https://github.com/gpcnifpb/jarbas.git
+      sudo chmod +x jarbas/project/jarbas
+      sudo chmod +x jarbas/project/functions.sh
+      sudo ln -s /home/vagrant/jarbas/Project/jarbas /usr/bin/jarbas
+
       echo "Installing build essentials"
       sudo apt-get -y update > /dev/null
       sudo apt-get -y upgrade > /dev/null
@@ -285,6 +311,13 @@ Vagrant.configure("2") do |config|
       sudo rm /home/vagrant/.ssh/known_hosts
       echo "Status SSHPASS:"
       sshpass -V
+
+      echo "Instalando J.A.R.B.A.S"
+      sudo apt-get install -y git > /dev/null
+      git clone https://github.com/gpcnifpb/jarbas.git
+      sudo chmod +x jarbas/project/jarbas
+      sudo chmod +x jarbas/project/functions.sh
+      sudo ln -s /home/vagrant/jarbas/Project/jarbas /usr/bin/jarbas
 
       echo "Installing build essentials"
       sudo apt-get -y update > /dev/null
